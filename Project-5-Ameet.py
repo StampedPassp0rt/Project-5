@@ -235,7 +235,7 @@ gsdtbasic_train = GridSearchCV(dtbasic_train,tree_params, cv = KFold(len(y_train
 gsdtbasic_train.fit(X_train,y_train)
 print gsdtbasic.best_estimator_
 print gsdtbasic.best_score_
-print "Accuracy of best estimator for Gridsearched Decision Tree on test data:\t", metrics.accuracy_score(y_test, gsdtbasic.predict(X_test))
+print "Accuracy of best estimator for Gridsearched Decision Tree on test data:\t", metrics.accuracy_score(y_test, gsdtbasic_train.predict(X_test))
 
 feature_importance_train = pd.DataFrame(gsdtbasic_train.best_estimator_.feature_importances_, columns = ['importance'], index = X.columns)
 feature_importance_train.sort_values('importance', ascending = False)
@@ -263,7 +263,8 @@ test_accuracy_scores = {}
 test_accuracy_scores['gsdt'] = metrics.accuracy_score(y_test, gsdtbasic.predict(X_test))
 test_accuracy_scores['dt'] = metrics.accuracy_score(y_test, y_pred_dt_train)
 test_accuracy_scores
-
+test_accuracy_scores['gsdt_train'] = metrics.accuracy_score(y_test, gsdtbasic_train.predict(X_test))
+test_accuracy_scores
 # #### 2. Transform "Y" into a 1-Dimensional Array for SciKit-Learn
 
 '''Done above...'''
@@ -713,3 +714,7 @@ knn_cm
 grid_lr_scaled.best_estimator_.coef_
 
 grid_lr_scaled.best_estimator_.intercept_
+
+test_accuracy_scores
+
+pd.DataFrame(test_accuracy_scores)
